@@ -18,26 +18,25 @@ The project currently includes a working UI and supporting image processing code
 ```text
 .
 ├── README.md
-└── Ai jaundise deection/
-    └── AI_Jaundice_Detection/
-        ├── app.py
-        ├── requirements.txt
-        ├── assets/
-        │   ├── background.png
-        │   └── logo.png
-        ├── detection/
-        │   ├── eye_detection.py
-        │   └── sclera_detection.py
-        ├── model/
-        │   ├── class_names.txt
-        │   └── jaundice_model.h5
-        ├── training/
-        │   ├── evaluate_model.py
-        │   ├── preprocessing.py
-        │   └── train_model.py
-        └── utils/
-            ├── image_processing.py
-            └── prediction.py
+├── app.py
+├── pyproject.toml
+├── uv.lock
+├── assets/
+│   ├── background.png
+│   └── logo.png
+├── detection/
+│   ├── eye_detection.py
+│   └── sclera_detection.py
+├── model/
+│   ├── class_names.txt
+│   └── jaundice_model.h5
+├── training/
+│   ├── evaluate_model.py
+│   ├── preprocessing.py
+│   └── train_model.py
+└── utils/
+    ├── image_processing.py
+    └── prediction.py
 ```
 
 ## Core code modules
@@ -133,33 +132,42 @@ The repository includes:
 
 ### Install dependencies
 
-From the project directory:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) if it is not already available, then run from the project directory. On Windows, if `uv` is not recognized, install and invoke it through Python:
 
 ```bash
-cd "Ai jaundise deection/AI_Jaundice_Detection"
-pip install -r requirements.txt
+py -m pip install --user uv
+py -m uv sync
 ```
+
+Direct dependencies and their supported version ranges are listed in `pyproject.toml`. The committed `uv.lock` records the exact versions resolved for reproducible installs. After changing dependencies, run `py -m uv lock` to update the lockfile, then `py -m uv sync` to install the locked versions.
 
 ### Run the app
 
 ```bash
-streamlit run app.py
+py -m uv run streamlit run app.py
 ```
 
 This starts the camera-based screening application in the browser.
 
+### Training dependencies
+
+TensorFlow is optional for running the Streamlit app. For model training and evaluation, use Python 3.12 or 3.13 and install the extra:
+
+```bash
+py -m uv sync --python 3.13 --extra training
+```
+
 ## Dependencies
 
-The project relies on:
+The project declares these direct dependencies in `pyproject.toml`:
 
-- Python 3.x
+- Python 3.12 or newer for the app
 - OpenCV (`opencv-python`)
-- TensorFlow / Keras
 - NumPy
 - Pillow (PIL)
 - Streamlit
 
-These are declared in `AI_Jaundice_Detection/requirements.txt`.
+TensorFlow / Keras is declared in the optional `training` extra, which currently supports Python 3.12 and 3.13.
 
 ## Current status
 
